@@ -63,6 +63,6 @@ func getJsonGz(variety, filepath string) {
 	filename := fmt.Sprintf("%v.json.gz", variety)
 	url := fmt.Sprintf("%v%v", NVDUrl, filename)
 	if !downloadFile(url, path.Join(filepath, filename)) {
-		log.Println("oops")
+		log.Fatal("oops")
 	}
 }

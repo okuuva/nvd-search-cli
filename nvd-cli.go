@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 
+	"github.com/okuuva/nvd-search-cli/nvd-search"
+
 	"github.com/docopt/docopt-go"
 	"github.com/mitchellh/go-homedir"
 )
@@ -23,5 +25,5 @@ Options:
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(path)
+	nvd_search.Search(args["--cve"].(string), args["--key"].(string), args["--vendor"].(string), args["--product"].(string), path)
 }

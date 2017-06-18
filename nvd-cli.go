@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/docopt/docopt-go"
 )
@@ -20,6 +19,4 @@ Options:
 `
 	args, _ := docopt.Parse(usage, nil, true, "nvd-search 0.1", false)
 	fmt.Println(args)
-	arguments := parseArgs(args)
-	fmt.Println(arguments)
 }

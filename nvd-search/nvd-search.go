@@ -2,6 +2,7 @@ package nvd_search
 
 import (
 	"io"
+	"os"
 	"log"
 	"fmt"
 	"time"
@@ -74,4 +75,15 @@ func calculateSHA(r io.Reader) []byte {
 	_, err := io.Copy(hasher, r)
 	checkFatal(err)
 	return hasher.Sum(nil)
+}
+
+func Update(dbPath string, all bool) {
+	os.MkdirAll(dbPath, 0755)
+	fileList := []string{"modified"}
+	if all {
+		fileList = generateFileList()
+	}
+	for _, f := range fileList {
+		getMeta(f)
+	}
 }

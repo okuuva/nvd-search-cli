@@ -107,3 +107,12 @@ func Update(dbPath string, all bool) {
 		getMeta(f)
 	}
 }
+
+func Search(cve, key, vendor, product, dbPath string) {
+	if cve != "" && key != "" {
+		log.Fatal("CVE and keyword search are mutually exclusive, please give only either or.")
+	} else if ! (cve == "" || key == "" || vendor == "" || product == "") {
+		log.Fatal("Give at least one search parameter")
+	}
+	loadNVD(dbPath)
+}

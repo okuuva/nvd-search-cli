@@ -1,10 +1,12 @@
 package nvd_search
 
 import (
+	"io"
 	"log"
 	"fmt"
 	"time"
 	"path"
+	"crypto/sha256"
 
 	"github.com/levigross/grequests"
 )
@@ -65,4 +67,11 @@ func getJsonGz(variety, filepath string) {
 	if !downloadFile(url, path.Join(filepath, filename)) {
 		log.Fatal("oops")
 	}
+}
+
+func calculateSHA(r io.Reader) []byte {
+	hasher := sha256.New()
+	_, err := io.Copy(hasher, r)
+	checkFatal(err)
+	return hasher.Sum(nil)
 }

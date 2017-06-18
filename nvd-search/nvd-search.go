@@ -20,6 +20,14 @@ const (
 
 var NVDUrl string = fmt.Sprintf("%v%v", NVDFeedBaseUrl, fmt.Sprintf(NVDJsonFeedUrl, NVDFeedVersion))
 
+type meta struct {
+	lastModifiedDate time.Time
+	size int
+	zipSize int
+	gzSize int
+	sha256 string
+}
+
 func checkFatal(e error) {
 	if e != nil {
 		log.Fatal(e)

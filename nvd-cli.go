@@ -17,6 +17,6 @@ Options:
  -p PRODUCT --product PRODUCT   CPE product name [default: ]
  -n NVD --nvd NVD               Location of the local NVD [default: ~/.config/nvd-cli/db]
 `
-	args, _ := docopt.Parse(usage, nil, true, "nvd-search 0.1", false)
+	args, _ := docopt.Parse(usage, nil, true, "nvd-cli 0.1", false)
 	fmt.Println(args)
 }

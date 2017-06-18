@@ -31,7 +31,7 @@ func checkError(e error) bool {
 	return true
 }
 
-func downloadFile(uri, filename string) error {
+func downloadFile(uri, filename string) bool {
 	log.Println("Downloading license file from", uri)
 	response, err := grequests.Get(uri, nil)
 	if !checkError(err) {

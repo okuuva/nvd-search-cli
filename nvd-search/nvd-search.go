@@ -11,7 +11,7 @@ import (
 
 const (
 	NVDFeedBaseUrl = "https://static.nvd.nist.gov/feeds/"
-	NVDJsonFeedUrl = "json/cve/%[1]v/nvdcve-%[1]v-"
+	NVDJsonFeedUrl = "json/cve/%.1[1]f/nvdcve-%.1[1]f-"
 	NVDFeedVersion = 1.0
 )
 

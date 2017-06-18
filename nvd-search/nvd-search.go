@@ -45,7 +45,7 @@ func downloadFile(uri, filename string) bool {
 }
 
 func generateFileList() []string {
-	fileList := append(make([]string, 20), "recent", "modified")
+	fileList := []string{"modified"}
 	for year := 2002; year <= time.Now().Year(); year++ {
 		fileList = append(fileList, fmt.Sprintf("%v", year))
 	}

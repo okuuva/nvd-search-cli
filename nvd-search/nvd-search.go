@@ -77,6 +77,18 @@ func calculateSHA(r io.Reader) []byte {
 	return hasher.Sum(nil)
 }
 
+func loadNVD(dbPath string) {
+	os.MkdirAll(dbPath, 0755)
+	file, err := os.Open(path.Join(dbPath, "db.json"))
+	if ! checkError(err) {
+		log.Print("Concatenated database does not exist, creating from scratch")
+		Update(dbPath, true)
+		os.Exit(2)
+	}
+	log.Printf("%x", calculateSHA(file))
+	Update(dbPath, false)
+}
+
 func Update(dbPath string, all bool) {
 	os.MkdirAll(dbPath, 0755)
 	fileList := []string{"modified"}

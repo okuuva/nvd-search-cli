@@ -38,7 +38,7 @@ func checkError(e error) bool {
 }
 
 func downloadFile(uri, filename string) bool {
-	log.Println("Downloading license file from", uri)
+	log.Println("Downloading file from", uri)
 	response, err := grequests.Get(uri, nil)
 	if !checkError(err) {
 		log.Println("Couldn't download file, maybe it's not valid URL?")

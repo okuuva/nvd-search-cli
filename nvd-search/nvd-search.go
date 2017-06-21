@@ -114,7 +114,7 @@ func calculateSHA(r io.Reader) []byte {
 func loadNVD(dbPath string) {
 	os.MkdirAll(dbPath, 0755)
 	file, err := os.Open(path.Join(dbPath, "db.json"))
-	if ! checkError(err) {
+	if !checkError(err) {
 		log.Print("Concatenated database does not exist, creating from scratch")
 		Update(dbPath, true)
 		os.Exit(2)
@@ -136,7 +136,7 @@ func Update(dbPath string, all bool) {
 func Search(cve, key, vendor, product, dbPath string) {
 	if cve != "" && key != "" {
 		log.Fatal("CVE and keyword search are mutually exclusive, please give only either or.")
-	} else if ! (cve == "" || key == "" || vendor == "" || product == "") {
+	} else if !(cve == "" || key == "" || vendor == "" || product == "") {
 		log.Fatal("Give at least one search parameter")
 	}
 	loadNVD(dbPath)

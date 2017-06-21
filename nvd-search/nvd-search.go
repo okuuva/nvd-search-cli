@@ -21,6 +21,11 @@ const (
 var NVDUrl string = fmt.Sprintf("%v%v", NVDFeedBaseUrl, fmt.Sprintf(NVDJsonFeedUrl, NVDFeedVersion))
 
 type meta map[string]interface{}
+
+type jsonGzFile struct {
+	path   string
+	file   *os.File
+	sha256 []byte
 }
 
 func checkFatal(e error) {

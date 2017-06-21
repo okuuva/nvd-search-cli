@@ -119,6 +119,21 @@ func getJsonGz(c chan<- jsonGzFile, variety, filepath string) {
 	c <- entry
 }
 
+func getJsonGzs(fileList []string, filepath string) []jsonGzFile {
+	c := make(chan jsonGzFile)
+	for _, file := range fileList {
+		go getJsonGz(c, file, filepath)
+	}
+	var files = make([]jsonGzFile, 0)
+	for entry := range c {
+		files = append(files, entry)
+		if len(files) == len(fileList) {
+			break
+		}
+	}
+	return files
+}
+
 func calculateSHA(r io.Reader) []byte {
 	hasher := sha256.New()
 	_, err := io.Copy(hasher, r)

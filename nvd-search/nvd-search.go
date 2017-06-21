@@ -80,6 +80,22 @@ func getMeta(c chan<- meta, variety string) {
 	c <- meta
 }
 
+func getMetas(fileList []string) []meta {
+	c := make(chan meta)
+	defer close(c)
+	for _, file := range fileList {
+		go getMeta(c, file)
+	}
+	var metas = make([]meta, 0)
+	for meta := range c {
+		metas = append(metas, meta)
+		if len(metas) == len(fileList) {
+			break
+		}
+	}
+	return metas
+}
+
 func getJsonGz(variety, filepath string) {
 	filename := fmt.Sprintf("%v.json.gz", variety)
 	url := fmt.Sprintf("%v%v", NVDUrl, filename)

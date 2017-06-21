@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"time"
 	"path"
+	"sort"
+	"strings"
 	"crypto/sha256"
 
 	"github.com/levigross/grequests"
@@ -159,7 +161,14 @@ func Update(dbPath string, all bool) {
 	if all {
 		fileList = generateFileList()
 	}
-	fmt.Println(fileList)
+	sort.Strings(fileList)
+	metas := getMetas(fileList)
+	for _, m := range metas {
+		fmt.Printf("%v\n", strings.ToLower(m["sha256"].(string)))
+	}
+	files := getJsonGzs(fileList, dbPath)
+	for _, f := range files {
+		fmt.Printf("%x\n", f.sha256)
 	}
 }
 

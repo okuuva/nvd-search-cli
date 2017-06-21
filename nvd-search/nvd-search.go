@@ -101,12 +101,22 @@ func getMetas(fileList []string) []meta {
 	return metas
 }
 
-func getJsonGz(variety, filepath string) {
+func getJsonGz(c chan<- jsonGzFile, variety, filepath string) {
 	filename := fmt.Sprintf("%v.json.gz", variety)
 	url := fmt.Sprintf("%v%v", NVDUrl, filename)
-	if !downloadFile(url, path.Join(filepath, filename)) {
-		log.Fatal("oops")
+	filepath = path.Join(filepath, filename)
+	if !downloadFile(url, filepath) {
+		log.Fatalf("Failed to download %v from %v", filename, url)
 	}
+	file, err := os.Open(filepath)
+	checkFatal(err)
+	defer file.Close()
+	entry := jsonGzFile{
+		filepath,
+		file,
+		calculateSHA(file),
+	}
+	c <- entry
 }
 
 func calculateSHA(r io.Reader) []byte {

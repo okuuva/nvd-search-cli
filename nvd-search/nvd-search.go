@@ -58,11 +58,26 @@ func generateFileList() []string {
 	return fileList
 }
 
-func getMeta(variety string) {
-	url := fmt.Sprintf("%v%v.meta", NVDUrl, variety)
+func getMeta(c chan<- meta, variety string) {
+	metaName := fmt.Sprintf("%v.meta", variety)
+	url := fmt.Sprintf("%v%v", NVDUrl, metaName)
+	log.Println("Fetching meta file from", url)
 	response, err := grequests.Get(url, nil)
 	checkFatal(err)
-	fmt.Println(response.String())
+	if response.StatusCode != 200 {
+		log.Fatal(fmt.Sprintf("NVD returned %v from %v", response.StatusCode, url))
+	}
+	content := strings.Split(response.String(), "\r\n")
+	meta := make(meta)
+	for _, line := range content {
+		if len(line) == 0 {
+			continue
+		}
+		parsedLine := strings.SplitN(line, ":", 2)
+		meta[parsedLine[0]] = parsedLine[1]
+	}
+	log.Println("Parsed meta file", metaName, "succesfully")
+	c <- meta
 }
 
 func getJsonGz(variety, filepath string) {
@@ -98,8 +113,7 @@ func Update(dbPath string, all bool) {
 	if all {
 		fileList = generateFileList()
 	}
-	for _, f := range fileList {
-		getMeta(f)
+	fmt.Println(fileList)
 	}
 }
 
